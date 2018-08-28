@@ -1,5 +1,6 @@
-import React, { Component } from "react";
-import styled from "styled-components";
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import Header from './components/Header';
 
 const AppWrapper = styled.div`
   text-align: left;
@@ -8,9 +9,7 @@ class App extends Component {
   render() {
     return (
       <AppWrapper>
-        <header>
-          <h1>Welcome to React</h1>
-        </header>
+        <Header />
         <p>
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
