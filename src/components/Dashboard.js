@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const Wrapper = styled.div`
   width: 80%;
   float: right;
+  text-align: center;
 `;
 
 const Nav = styled.nav`
@@ -12,7 +13,6 @@ const Nav = styled.nav`
     margin: 0;
     padding: 0;
     overflow: hidden;
-    text-align: center;
     li {
       display: inline-block;
       a {
@@ -23,18 +23,16 @@ const Nav = styled.nav`
         text-decoration: none;
         color: #000;
       }
-      :hover {
-        border-bottom: 2px solid #e2e5ec;
-      }
     }
   }
 `;
 
-class Dashbord extends Component {
+class Dashboard extends Component {
   state = {};
   render() {
     return (
       <Wrapper>
+        <h1>Dashboard</h1>
         <Nav>
           <ul>
             <li>
@@ -59,4 +57,4 @@ class Dashbord extends Component {
   }
 }
 
-export default Dashbord;
+export default Dashboard;

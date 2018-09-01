@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import styled, { injectGlobal } from 'styled-components';
-import Header from './components/Header';
 import Home from './components/Home';
-import Footer from './components/Footer';
-import SidePanel from './components/SidePanel';
-import Dashboard from './components/Dashboard';
+import Sidebar from './components/Sidebar';
 
 const AppWrapper = styled.body``;
 
@@ -24,11 +21,8 @@ class App extends Component {
   render() {
     return (
       <AppWrapper>
-        {/* <Header />
-        <Home />
-        <Footer /> */}
-        <SidePanel />
-        <Dashboard />
+        {/* <Home /> */}
+        <Sidebar />
       </AppWrapper>
     );
   }
