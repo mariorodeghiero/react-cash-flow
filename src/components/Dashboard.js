@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  width: 80%;
+  margin: 0;
+  width: 75%;
   float: right;
   text-align: center;
 `;
