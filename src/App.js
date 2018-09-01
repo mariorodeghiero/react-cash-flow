@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Home from './components/Home';
 import Footer from './components/Footer';
 import SidePanel from './components/SidePanel';
+import Dashboard from './components/Dashboard';
 
 const AppWrapper = styled.body``;
 
@@ -27,6 +28,7 @@ class App extends Component {
         <Home />
         <Footer /> */}
         <SidePanel />
+        <Dashboard />
       </AppWrapper>
     );
   }

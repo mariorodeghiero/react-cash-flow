@@ -7,7 +7,7 @@ const SidePanel = styled.div`
   width: 20%;
   background-color: #ffffff;
   > ul {
-    width: 20%;
+    width: 50%;
   }
 `;
 
@@ -17,7 +17,12 @@ const List = styled.li`
   color: #594a4a;
   :hover {
     border-bottom: 2px solid #e2e5ec;
+    cursor: pointer;
   }
+`;
+
+const Title = styled.h2`
+  padding: 10px;
 `;
 
 class Panel extends Component {
@@ -25,12 +30,13 @@ class Panel extends Component {
   render() {
     return (
       <SidePanel>
+        <Title>Nutritional Clinic</Title>
         <ul>
-          <List>Test</List>
-          <List>Test</List>
-          <List>Test</List>
-          <List>Test</List>
-          <List>Test</List>
+          <List>Received</List>
+          <List>Payment</List>
+          <List>Account Plan</List>
+          <List>Settings</List>
+          <List>Log out</List>
         </ul>
       </SidePanel>
     );
