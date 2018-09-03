@@ -8,6 +8,7 @@ import Payment from './components/Payment';
 import Settings from './components/Settings';
 import Error from './components/Error';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { database } from './firebase';
 
 const AppWrapper = styled.body``;
 
@@ -24,13 +25,29 @@ body{
 `;
 
 class App extends Component {
+  state = {
+    flow: {},
+  };
+
+  componentDidMount() {
+    this.flow = database.ref('flow');
+    this.flow.on('value', snapshot => {
+      this.setState({
+        flow: snapshot.val(),
+      });
+    });
+  }
   render() {
     return (
       <Router>
         <div>
           <Sidebar />
           <Switch>
-            <Route path="/" component={Dashboard} exact />
+            <Route
+              path="/"
+              exact
+              render={props => <Dashboard {...props} flow={this.state.flow} />}
+            />
             <Route path="/payment" component={Payment} />
             <Route path="/received" exact component={Received} />
             <Route path="/settings" component={Settings} />

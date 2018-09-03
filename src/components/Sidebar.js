@@ -20,6 +20,7 @@ const StyledLink = styled(Link)`
   display: block;
   margin-left: 30px;
   width: 30%;
+  text-decoration: none;
   :hover {
     border-bottom: 2px solid #e2e5ec;
     cursor: pointer;

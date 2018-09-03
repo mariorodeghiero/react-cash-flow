@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+
+import Month from './Month';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -29,15 +31,15 @@ const Nav = styled.nav`
 `;
 
 class Dashboard extends Component {
-  state = {};
   render() {
+    const keys = Object.keys(this.props.flow);
     return (
       <Wrapper>
         <h1>Dashboard</h1>
         <Nav>
           <ul>
             <li>
-              <a href="">test</a>
+              <a href=""> test</a>
             </li>
             <li>
               <a href="">test</a>
@@ -47,6 +49,12 @@ class Dashboard extends Component {
             </li>
           </ul>
         </Nav>
+
+        <div>
+          {keys.map(key => (
+            <Month month={this.props.flow[key]} />
+          ))}
+        </div>
         <p>
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nobis
           aspernatur illo aperiam, possimus commodi, hic consequatur tenetur
