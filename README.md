@@ -3,6 +3,8 @@
 ## Built With
 
 - [ReactJS](https://reactjs.org) - ReactJS
+- [Firebase](https://firebase.google.com/) - Firebase
+- [ChartJS](https://www.chartjs.org/) - ChartJS
 
 ## Contributing
 
