@@ -26,14 +26,26 @@ body{
 
 class App extends Component {
   state = {
-    flow: {},
+    inflow: {},
+    outflow: {},
   };
 
   componentDidMount() {
-    this.flow = database.ref('flow');
-    this.flow.on('value', snapshot => {
+    this.inflow = database.ref('flow/inflows');
+    this.outflow = database.ref('flow/outflow');
+
+    // outflow
+    this.outflow.on('value', snapshot => {
+      console.log('Outflow:', snapshot.val());
       this.setState({
-        flow: snapshot.val(),
+        outflow: snapshot.val(),
+      });
+    });
+    // inflow
+    this.inflow.on('value', snapshot => {
+      console.log('Inflow:', snapshot.val());
+      this.setState({
+        inflow: snapshot.val(),
       });
     });
   }
@@ -46,7 +58,13 @@ class App extends Component {
             <Route
               path="/"
               exact
-              render={props => <Dashboard {...props} flow={this.state.flow} />}
+              render={props => (
+                <Dashboard
+                  {...props}
+                  inflow={this.state.inflow}
+                  outflow={this.state.outflow}
+                />
+              )}
             />
             <Route path="/payment" component={Payment} />
             <Route path="/received" exact component={Received} />

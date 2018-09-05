@@ -5,62 +5,38 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   margin: 0;
-  width: 75%;
+  width: 80%;
   float: right;
   text-align: center;
 `;
 
-const Nav = styled.nav`
-  ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    li {
-      display: inline-block;
-      a {
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-        color: #000;
-      }
-    }
-  }
-`;
-
 class Dashboard extends Component {
   render() {
-    const keys = Object.keys(this.props.flow);
+    const keys = Object.keys(this.props.inflow);
     return (
       <Wrapper>
         <h1>Dashboard</h1>
-        <Nav>
-          <ul>
-            <li>
-              <a href=""> test</a>
-            </li>
-            <li>
-              <a href="">test</a>
-            </li>
-            <li>
-              <a href="">test</a>
-            </li>
-          </ul>
-        </Nav>
-
         <div>
-          {keys.map(key => (
-            <Month month={this.props.flow[key]} />
-          ))}
+          <table>
+            <thead>
+              <tr>
+                <th colSpan={4}>Inflow</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Name</th>
+                <th>CPF</th>
+                <th>Payment</th>
+                <th>Date</th>
+                <th>Value</th>
+              </tr>
+            </tbody>
+            {keys.map(key => (
+              <Month month={this.props.inflow[key]} key={key} />
+            ))}
+          </table>
         </div>
-        <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nobis
-          aspernatur illo aperiam, possimus commodi, hic consequatur tenetur
-          officia quos sit cum numquam autem officiis facere ut dolorum iure
-          quidem porro.
-        </p>
       </Wrapper>
     );
   }

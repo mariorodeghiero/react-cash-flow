@@ -22,7 +22,7 @@ const StyledLink = styled(Link)`
   width: 30%;
   text-decoration: none;
   :hover {
-    border-bottom: 2px solid #e2e5ec;
+    border-bottom: 1px solid #e2e5ec;
     cursor: pointer;
   }
 `;
@@ -38,11 +38,11 @@ class Sidebar extends Component {
       <Side>
         <Title>Nutritional Clinic</Title>
         <StyledLink to="/">Dashboard</StyledLink>
-        <StyledLink to="/payment">payment</StyledLink>
-        <StyledLink to="/accountplan">accountplan</StyledLink>
-        <StyledLink to="/received">received</StyledLink>
-        <StyledLink to="/settings">settings</StyledLink>
-        <StyledLink to="/logout">logout</StyledLink>
+        <StyledLink to="/payment">Inflows</StyledLink>
+        <StyledLink to="/received">Outflows</StyledLink>
+        <StyledLink to="/accountplan">Accountplan</StyledLink>
+        <StyledLink to="/settings">Settings</StyledLink>
+        <StyledLink to="/logout">Logout</StyledLink>
       </Side>
     );
   }

@@ -1,0 +1,27 @@
+{
+  "flow": [
+    {
+      "inflows": [
+        {
+          "id": {
+            "date": "",
+            "value": 1000,
+            "name": "jhon Due",
+            "cpf": "",
+            "payment": "card"
+          }
+        }
+      ],
+      "outflows": [
+        {
+          "id": {
+            "date": "",
+            "value": 1000,
+            "name": "jhon Due",
+            "payment": "card"
+          }
+        }
+      ]
+    }
+  ]
+}
