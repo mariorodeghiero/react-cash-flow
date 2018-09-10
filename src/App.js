@@ -10,30 +10,37 @@ import Error from './components/Error';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { database } from './firebase';
 
-const AppWrapper = styled.body``;
-
 injectGlobal`
-body{
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-  background-color: #e2e5ec;
-}
+  * {
+    font-family: "Roboto";
+    font-weight: 100;
+    line-height: 1.1;
+    letter-spacing: 0.025em;
+  }
+  body{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    background-color: #e2e5ec;
+  }
 `;
 
 class App extends Component {
-  state = {
-    inflow: {},
-    outflow: {},
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      inflow: {},
+      outflow: {},
+      chartData: {},
+    };
+  }
 
-  componentDidMount() {
+  componentWillMount() {
     this.inflow = database.ref('flow/inflows');
     this.outflow = database.ref('flow/outflow');
-
     // outflow
     this.outflow.on('value', snapshot => {
       console.log('Outflow:', snapshot.val());
@@ -49,6 +56,30 @@ class App extends Component {
       });
     });
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.inflow !== this.state.inflow) {
+      const keysIn1 = this.state.inflow;
+      console.log('------------------------------------');
+      console.log('rrr: ', keysIn1);
+      console.log('------------------------------------');
+      this.setState({
+        chartData: {
+          labels: ['Jan', 'Fev', 'Mar', 'Abr'],
+          datasets: [
+            {
+              label: 'Inflows',
+              borderColor: '#24f9cb',
+              backgroundColor: '#00cfd6',
+              fill: false,
+              data: [5520, 6012, 7000, 5000],
+            },
+          ],
+        },
+      });
+    }
+  }
+
   render() {
     return (
       <Router>
@@ -63,6 +94,7 @@ class App extends Component {
                   {...props}
                   inflow={this.state.inflow}
                   outflow={this.state.outflow}
+                  chartData={this.state.chartData}
                 />
               )}
             />
