@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
-import Month from './Month';
+import Inflow from './Inflow';
+import Outflow from './Outflow';
+import InflowChart from './InflowChart';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -12,10 +14,14 @@ const Wrapper = styled.div`
 
 class Dashboard extends Component {
   render() {
-    const keys = Object.keys(this.props.inflow);
+    const keysIn = Object.keys(this.props.inflow);
+    const keysOut = Object.keys(this.props.outflow);
     return (
       <Wrapper>
         <h1>Dashboard</h1>
+        <div>
+          <InflowChart total={this.props.chartData} />
+        </div>
         <div>
           <table>
             <thead>
@@ -32,8 +38,29 @@ class Dashboard extends Component {
                 <th>Value</th>
               </tr>
             </tbody>
-            {keys.map(key => (
-              <Month month={this.props.inflow[key]} key={key} />
+            {keysIn.map(key => (
+              <Inflow inflow={this.props.inflow[key]} key={key} />
+            ))}
+          </table>
+        </div>
+        {/* outflow */}
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th colSpan={4}>Outflow</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Name</th>
+                <th>Payment</th>
+                <th>Date</th>
+                <th>Value</th>
+              </tr>
+            </tbody>
+            {keysOut.map(key => (
+              <Outflow outflow={this.props.outflow[key]} key={key} />
             ))}
           </table>
         </div>

@@ -22,12 +22,14 @@ const StyledLink = styled(Link)`
   width: 30%;
   text-decoration: none;
   :hover {
-    border-bottom: 1px solid #e2e5ec;
+    border-bottom: 1px solid #b77adb;
     cursor: pointer;
   }
 `;
 
 const Title = styled.h2`
+  font-weight: 300;
+  color: #af6dd6;
   padding: 10px;
 `;
 
