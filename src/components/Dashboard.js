@@ -13,6 +13,23 @@ const Wrapper = styled.div`
 `;
 
 class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      newValueIn: '',
+      valueIn: [1111, 2222],
+    };
+  }
+  sendValue = () => {
+    this.setState({
+      valueIn: [...this.state.valueIn, this.state.newValueIn],
+      newValueIn: '',
+    });
+  };
+
+  handleChange = event => {
+    this.setState({ newValueIn: event.target.value });
+  };
   render() {
     const keysIn = Object.keys(this.props.inflow);
     const keysOut = Object.keys(this.props.outflow);
@@ -63,6 +80,15 @@ class Dashboard extends Component {
               <Outflow outflow={this.props.outflow[key]} key={key} />
             ))}
           </table>
+          <div>
+            <textarea
+              value={this.state.newValueIn}
+              onChange={this.handleChange}
+            />
+          </div>
+          <button onClick={this.sendValue}>Send</button>
+          {this.state.newValueIn}
+          {this.state.valueIn}
         </div>
       </Wrapper>
     );

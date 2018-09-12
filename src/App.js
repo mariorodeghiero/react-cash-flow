@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled, { injectGlobal } from 'styled-components';
+import { injectGlobal } from 'styled-components';
 import Home from './components/Home';
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
@@ -35,6 +35,8 @@ class App extends Component {
       inflow: {},
       outflow: {},
       chartData: {},
+      sumInflow: 0,
+      sumOutflow: 0,
     };
   }
 
@@ -59,11 +61,21 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.inflow !== this.state.inflow) {
-      const keysIn1 = this.state.inflow;
-      console.log('------------------------------------');
-      console.log('rrr: ', keysIn1);
-      console.log('------------------------------------');
+      const keysIn = Object.keys(this.state.inflow);
+      const keysOut = Object.keys(this.state.outflow);
+
+      let totalIn = 0;
+      keysIn.map(key => {
+        return (totalIn = totalIn + this.state.inflow[key].value);
+      });
+      let totalOut = 0;
+      keysOut.map(key => {
+        return (totalOut = totalOut + this.state.outflow[key].value);
+      });
+
       this.setState({
+        sumInflow: totalIn,
+        sumOutflow: totalOut,
         chartData: {
           labels: ['Jan', 'Fev', 'Mar', 'Abr'],
           datasets: [
@@ -86,6 +98,8 @@ class App extends Component {
         <div>
           <Sidebar />
           <Switch>
+            {console.log('Total inflow:', this.state.sumInflow)}
+            {console.log('Total Outflow:', this.state.sumOutflow)}
             <Route
               path="/"
               exact
