@@ -40,8 +40,8 @@ class Sidebar extends Component {
       <Side>
         <Title>Nutritional Clinic</Title>
         <StyledLink to="/">Dashboard</StyledLink>
-        <StyledLink to="/payment">Inflows</StyledLink>
-        <StyledLink to="/received">Outflows</StyledLink>
+        <StyledLink to="/inflows">Inflows</StyledLink>
+        <StyledLink to="/outflows">Outflows</StyledLink>
         <StyledLink to="/accountplan">Accountplan</StyledLink>
         <StyledLink to="/settings">Settings</StyledLink>
         <StyledLink to="/logout">Logout</StyledLink>
