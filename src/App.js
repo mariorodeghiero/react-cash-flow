@@ -3,8 +3,8 @@ import { injectGlobal } from 'styled-components';
 import Home from './components/Home';
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
-import Received from './components/Received';
-import Payment from './components/Payment';
+import Outflows from './components/Outflows';
+import Inflows from './components/Inflows';
 import Settings from './components/Settings';
 import Error from './components/Error';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -112,8 +112,18 @@ class App extends Component {
                 />
               )}
             />
-            <Route path="/payment" component={Payment} />
-            <Route path="/received" exact component={Received} />
+            <Route
+              path="/inflows"
+              render={props => (
+                <Inflows {...props} inflow={this.state.inflow} />
+              )}
+            />
+            <Route
+              path="/outflows"
+              render={props => (
+                <Outflows {...props} outflow={this.state.outflow} />
+              )}
+            />
             <Route path="/settings" component={Settings} />
             <Route component={Error} />
           </Switch>
