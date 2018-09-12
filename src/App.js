@@ -81,10 +81,17 @@ class App extends Component {
           datasets: [
             {
               label: 'Inflows',
-              borderColor: '#24f9cb',
+              borderColor: '#00cfd6',
               backgroundColor: '#00cfd6',
               fill: false,
               data: [5520, 6012, 7000, 5000],
+            },
+            {
+              label: 'Outflows',
+              borderColor: '#c93a71',
+              backgroundColor: '#c93a71',
+              fill: false,
+              data: [1800, 2000, 1678, 1567],
             },
           ],
         },

@@ -21,7 +21,7 @@ class InflowChart extends Component {
       },
       title: {
         display: true,
-        text: 'Ano 2017',
+        text: 'Ano 2018',
         fontSize: 13,
         padding: 20,
       },
