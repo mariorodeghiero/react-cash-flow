@@ -7,8 +7,8 @@ import Outflows from './components/Outflows';
 import Inflows from './components/Inflows';
 import Settings from './components/Settings';
 import Error from './components/Error';
+import Login from './components/Login';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { database } from './firebase';
 
 injectGlobal`
   * {
@@ -37,10 +37,16 @@ class App extends Component {
       chartData: {},
       sumInflow: 0,
       sumOutflow: 0,
+      isAuth: false,
     };
   }
 
+  login = (email, passwd) => {
+    console.log('Logar', email, passwd);
+  };
+
   componentWillMount() {
+    const { database } = this.props;
     this.inflow = database.ref('flow/inflows');
     this.outflow = database.ref('flow/outflow');
     // outflow
@@ -84,7 +90,7 @@ class App extends Component {
               borderColor: '#00cfd6',
               backgroundColor: '#00cfd6',
               fill: false,
-              data: [5520, 6012, 7000, 5000],
+              data: [5520, 6012, 7020, 5000],
             },
             {
               label: 'Outflows',
@@ -101,41 +107,47 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
-        <div>
-          <Sidebar />
-          <Switch>
-            {console.log('Total inflow:', this.state.sumInflow)}
-            {console.log('Total Outflow:', this.state.sumOutflow)}
-            <Route
-              path="/"
-              exact
-              render={props => (
-                <Dashboard
-                  {...props}
-                  inflow={this.state.inflow}
-                  outflow={this.state.outflow}
-                  chartData={this.state.chartData}
+      <div>
+        {this.state.isAuth && (
+          <Router>
+            <div>
+              <Sidebar />
+              <Switch>
+                {console.log('Total inflow:', this.state.sumInflow)}
+                {console.log('Total Outflow:', this.state.sumOutflow)}
+                <Route
+                  path="/"
+                  exact
+                  render={props => (
+                    <Dashboard
+                      {...props}
+                      inflow={this.state.inflow}
+                      outflow={this.state.outflow}
+                      chartData={this.state.chartData}
+                    />
+                  )}
                 />
-              )}
-            />
-            <Route
-              path="/inflows"
-              render={props => (
-                <Inflows {...props} inflow={this.state.inflow} />
-              )}
-            />
-            <Route
-              path="/outflows"
-              render={props => (
-                <Outflows {...props} outflow={this.state.outflow} />
-              )}
-            />
-            <Route path="/settings" component={Settings} />
-            <Route component={Error} />
-          </Switch>
-        </div>
-      </Router>
+                <Route
+                  path="/inflows"
+                  render={props => (
+                    <Inflows {...props} inflow={this.state.inflow} />
+                  )}
+                />
+                <Route
+                  path="/outflows"
+                  render={props => (
+                    <Outflows {...props} outflow={this.state.outflow} />
+                  )}
+                />
+                <Route path="/settings" component={Settings} />
+                <Route component={Error} />
+              </Switch>
+            </div>
+          </Router>
+        )}
+        {!this.state.isAuth && <Login login={this.login} />}
+        <Home />
+      </div>
     );
   }
 }

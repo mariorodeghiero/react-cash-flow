@@ -3,5 +3,10 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import { database, auth } from './firebase';
+
+ReactDOM.render(
+  <App database={database} auth={auth} />,
+  document.getElementById('root')
+);
 registerServiceWorker();
