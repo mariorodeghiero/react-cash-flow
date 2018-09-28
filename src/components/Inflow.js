@@ -11,6 +11,12 @@ class Inflow extends Component {
           <td>{this.props.inflow.date}</td>
           <td>{this.props.inflow.value}</td>
         </tr>
+
+        {/* {this.props.inflow.map(month => {
+          if (month.month == 'mar') {
+            console.log('deu certo');
+          }
+        })} */}
       </tbody>
     );
   }

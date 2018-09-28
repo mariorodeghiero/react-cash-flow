@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
 
-import Outflow from './Outflow';
 import InflowChart from './InflowChart';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  margin: 0;
   width: 80%;
   float: right;
   text-align: center;
+  > h1 {
+    padding-top: 50px;
+  }
+`;
+
+const Chart = styled.div`
+  margin-left: 15%;
+  top: 25%;
+  position: absolute;
 `;
 
 class Dashboard extends Component {
@@ -33,9 +40,9 @@ class Dashboard extends Component {
     return (
       <Wrapper>
         <h1>Dashboard</h1>
-        <div>
+        <Chart>
           <InflowChart total={this.props.chartData} />
-        </div>
+        </Chart>
         <div>
           <div>
             <textarea
