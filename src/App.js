@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { injectGlobal } from 'styled-components';
-import Home from './components/Home';
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
 import Outflows from './components/Outflows';
 import Inflows from './components/Inflows';
-import Settings from './components/Settings';
 import Error from './components/Error';
 import Login from './components/Login';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -38,15 +36,39 @@ class App extends Component {
       sumInflow: 0,
       sumOutflow: 0,
       isAuth: false,
+      isAuthError: false,
+      authError: '',
+      user: {},
     };
   }
 
-  login = (email, passwd) => {
-    console.log('Logar', email, passwd);
+  login = async (email, passwd) => {
+    const { auth } = this.props;
+    this.setState({
+      authError: '',
+      isAuthError: false,
+    });
+    try {
+      await auth.signInWithEmailAndPassword(email, passwd);
+      console.log('Logar', email, passwd);
+    } catch (err) {
+      console.log('Erro:', err.code);
+      this.setState({
+        authError: err.code,
+        isAuthError: true,
+      });
+    }
+  };
+
+  //logout
+
+  logout = () => {
+    const { auth } = this.props;
+    auth.signOut();
   };
 
   componentWillMount() {
-    const { database } = this.props;
+    const { database, auth } = this.props;
     this.inflow = database.ref('flow/inflows');
     this.outflow = database.ref('flow/outflow');
     // outflow
@@ -62,6 +84,20 @@ class App extends Component {
       this.setState({
         inflow: snapshot.val(),
       });
+    });
+    //auth
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        this.setState({
+          isAuth: true,
+          user,
+        });
+      } else {
+        this.setState({
+          isAuth: false,
+          user: {},
+        });
+      }
     });
   }
 
@@ -111,7 +147,7 @@ class App extends Component {
         {this.state.isAuth && (
           <Router>
             <div>
-              <Sidebar />
+              <Sidebar email={this.state.user.email} logout={this.logout} />
               <Switch>
                 {console.log('Total inflow:', this.state.sumInflow)}
                 {console.log('Total Outflow:', this.state.sumOutflow)}
@@ -139,14 +175,13 @@ class App extends Component {
                     <Outflows {...props} outflow={this.state.outflow} />
                   )}
                 />
-                <Route path="/settings" component={Settings} />
                 <Route component={Error} />
               </Switch>
             </div>
           </Router>
         )}
         {!this.state.isAuth && <Login login={this.login} />}
-        <Home />
+        {/* <Home /> */}
       </div>
     );
   }
