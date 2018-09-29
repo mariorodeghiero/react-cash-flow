@@ -39,6 +39,7 @@ class App extends Component {
       isAuthError: false,
       authError: '',
       user: {},
+      total: [],
     };
   }
 
@@ -110,14 +111,19 @@ class App extends Component {
       keysIn.map(key => {
         return (totalIn = totalIn + this.state.inflow[key].value);
       });
+
       let totalOut = 0;
       keysOut.map(key => {
         return (totalOut = totalOut + this.state.outflow[key].value);
       });
 
+      // filter
+      const all = keysIn.map(chave => this.state.inflow[chave]);
+
       this.setState({
         sumInflow: totalIn,
         sumOutflow: totalOut,
+        total: all,
         chartData: {
           labels: ['Jan', 'Fev', 'Mar', 'Abr'],
           datasets: [
@@ -166,7 +172,11 @@ class App extends Component {
                 <Route
                   path="/inflows"
                   render={props => (
-                    <Inflows {...props} inflow={this.state.inflow} />
+                    <Inflows
+                      {...props}
+                      inflow={this.state.inflow}
+                      total={this.state.total}
+                    />
                   )}
                 />
                 <Route
@@ -181,7 +191,6 @@ class App extends Component {
           </Router>
         )}
         {!this.state.isAuth && <Login login={this.login} />}
-        {/* <Home /> */}
       </div>
     );
   }

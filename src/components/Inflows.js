@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Inflow from './Inflow';
+import FilterMonth from './FilterMonth';
 import styled from 'styled-components';
 
 const ContainerInflow = styled.div`
@@ -23,10 +24,33 @@ const Table = styled.table`
 class Payment extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      months: ['jan', 'fev', 'mar'],
+      filter: '',
+      isFilter: false,
+    };
   }
+
+  filterMonth = selectMonth => {
+    const filters = this.props.total.filter(item => item.month === selectMonth);
+    console.log('------------------------------------');
+    console.log('test', filters);
+    console.log('------------------------------------');
+    this.setState({
+      filter: filters,
+      isFilter: true,
+    });
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.filter !== this.state.filter) {
+      console.log('test item: ', this.state.filter[0].name);
+    }
+  }
+
   render() {
     const keysIn = Object.keys(this.props.inflow);
+    const keysFilter = Object.keys(this.state.filter);
     return (
       <div>
         <ContainerInflow>
@@ -88,7 +112,6 @@ class Payment extends Component {
                     placeholder="Value..."
                   />
                 </td>
-                <td className="total">{this.state.totale}</td>
               </tr>
             </tbody>
           </Table>
@@ -109,6 +132,13 @@ class Payment extends Component {
             </Table>
           </div>
         </ContainerInflow>
+        <div>
+          <FilterMonth filterMonth={this.filterMonth} />
+          <Table>
+            {this.state.isFilter &&
+              keysFilter.map(key => <Inflow inflow={this.state.filter[key]} />)}
+          </Table>
+        </div>
       </div>
     );
   }
