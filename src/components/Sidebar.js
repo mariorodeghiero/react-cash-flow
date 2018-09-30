@@ -5,9 +5,11 @@ import styled from 'styled-components';
 
 const Side = styled.div`
   float: left;
-  height: 100vh;
-  width: 20%;
+  height: 95vh;
+  width: 17%;
+  min-width: 110px;
   padding-top: 50px;
+  padding-left: 20px;
   background-color: #ffffff;
   ul {
     width: 50%;
@@ -15,13 +17,14 @@ const Side = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  padding: 10px;
+  padding-bottom: 10px;
+  padding-top: 10px;
   list-style: none;
   color: #594a4a;
   display: block;
-  margin-left: 30px;
   width: 30%;
   text-decoration: none;
+  font-size: 1rem;
   :hover {
     border-bottom: 1px solid #b77adb;
     cursor: pointer;
@@ -35,18 +38,16 @@ const Title = styled.h2`
 `;
 
 const User = styled.p`
-  font-size: 0.7em;
+  font-size: 0.5rem;
   position: absolute;
   left: 10px;
-  top: 95%;
 `;
 
 const Button = styled.button`
-  padding: 10px;
-  width: 130px;
+  padding: 10px 34px;
   position: absolute;
   top: 90%;
-  left: 5%;
+  left: 4%;
   border-radius: 40px;
   background-color: #c93a71;
   color: #ffffff;
@@ -62,15 +63,17 @@ const Button = styled.button`
 
 const Sidebar = props => {
   return (
-    <Side>
-      {/* <Title>Nutritional Clinic</Title> */}
-      <StyledLink to="/">Dashboard</StyledLink>
-      <StyledLink to="/inflows">Inflows</StyledLink>
-      <StyledLink to="/outflows">Outflows</StyledLink>
-      <StyledLink to="/accountplan">Accountplan</StyledLink>
-      <Button onClick={props.logout}> Logout</Button>
-      <User>User: {props.email}</User>
-    </Side>
+    <div>
+      {/* <User>{props.email}</User> */}
+      <Side>
+        {/* <Title>Nutritional Clinic</Title> */}
+        <StyledLink to="/">Dashboard</StyledLink>
+        <StyledLink to="/inflows">Inflows</StyledLink>
+        <StyledLink to="/outflows">Outflows</StyledLink>
+        <StyledLink to="/accountplan">Accountplan</StyledLink>
+        <Button onClick={props.logout}> Logout</Button>
+      </Side>
+    </div>
   );
 };
 

@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 
 import Inflow from './Inflow';
+import FilterMonth from './FilterMonth';
 import styled from 'styled-components';
 
 const ContainerInflow = styled.div`
   margin: 0;
   width: 80%;
-  float: right;
+  /* float: right; */
   text-align: center;
+  position: absolute;
+  margin-left: 23%;
+  /* min-width: 780px; */
 `;
 
 const TitleInflow = styled.h1`
@@ -20,13 +24,34 @@ const Table = styled.table`
   margin-top: 100px;
 `;
 
+const ThTable = styled.th`
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+`;
+
 class Payment extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      months: ['jan', 'fev', 'mar'],
+      filter: '',
+      isFilter: false,
+    };
   }
+
+  filterMonth = selectMonth => {
+    const filters = this.props.total.filter(item => item.month === selectMonth);
+    this.setState({
+      filter: filters,
+      isFilter: true,
+    });
+  };
+
   render() {
     const keysIn = Object.keys(this.props.inflow);
+    const keysFilter = Object.keys(this.state.filter);
+
     return (
       <div>
         <ContainerInflow>
@@ -88,24 +113,28 @@ class Payment extends Component {
                     placeholder="Value..."
                   />
                 </td>
-                <td className="total">{this.state.totale}</td>
               </tr>
             </tbody>
           </Table>
           <div>
+            <FilterMonth filterMonth={this.filterMonth} />
             <Table>
               <tbody>
                 <tr>
-                  <th>Name</th>
-                  <th>CPF</th>
-                  <th>Payment</th>
-                  <th>Date</th>
-                  <th>Value</th>
+                  <ThTable>Name</ThTable>
+                  <ThTable>CPF</ThTable>
+                  <ThTable>Payment</ThTable>
+                  <ThTable>Date</ThTable>
+                  <ThTable>Value</ThTable>
                 </tr>
               </tbody>
-              {keysIn.map(key => (
+              {/* {keysIn.map(key => (
                 <Inflow inflow={this.props.inflow[key]} key={key} />
-              ))}
+              ))} */}
+              {this.state.isFilter &&
+                keysFilter.map(key => (
+                  <Inflow inflow={this.state.filter[key]} />
+                ))}
             </Table>
           </div>
         </ContainerInflow>
