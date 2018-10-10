@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
-
+import InputMask from 'react-input-mask';
 import Inflow from './Inflow';
 import FilterMonth from './FilterMonth';
 import styled from 'styled-components';
+import '../Mask.css';
+import { sendButton, containerInflowOutflow } from './style-utils';
 
 const ContainerInflow = styled.div`
-  margin: 0;
-  width: 80%;
-  /* float: right; */
-  text-align: center;
-  position: absolute;
-  margin-left: 23%;
-  /* min-width: 780px; */
+  ${containerInflowOutflow()};
 `;
 
 const TitleInflow = styled.h1`
   text-align: center;
-  margin-top: 50px;
+  margin-top: 70px;
+  padding-bottom: 50px;
 `;
 
 const Table = styled.table`
@@ -30,92 +27,165 @@ const ThTable = styled.th`
   padding-bottom: 10px;
 `;
 
+const Input = styled.input`
+  border: none;
+  text-align: center;
+  background: rgba(0, 0, 0, 0);
+  font-size: 0.8rem;
+  padding: 10px;
+  margin-right: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  &:focus {
+    outline: none;
+    border-bottom: 1px solid #3dccce;
+    border-radius: 4px;
+  }
+  &::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+`;
+
+const InputDate = styled.input`
+  border: none;
+  text-align: center;
+  background: rgba(0, 0, 0, 0);
+  font-size: 0.8rem;
+  padding: 6.5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  &:focus {
+    outline: none;
+    border-bottom: 1px solid #3dccce;
+    border-radius: 4px;
+  }
+  &::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+`;
+
+const SendButton = styled.button`
+  ${sendButton()};
+`;
+
+let year = new Date().getFullYear();
+
 class Payment extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      months: ['jan', 'fev', 'mar'],
+      months: [
+        'jan' + year,
+        'feb' + year,
+        'mar' + year,
+        'apr' + year,
+        'may' + year,
+        'jun' + year,
+        'jul' + year,
+        'aug' + year,
+        'sep' + year,
+        'oct' + year,
+        'nov' + year,
+        'dez' + year,
+      ],
       filter: '',
       isFilter: false,
+      name: '',
+      cpf: '',
+      date: '',
+      payment: '',
+      value: '',
+      month: '',
     };
   }
 
+  handleChange = field => event => {
+    this.setState({ [field]: event.target.value });
+  };
+
+  sendInflow = () => {
+    let year = new Date().getFullYear();
+    if (this.state.name !== '') {
+      this.props.sendInflow(
+        this.state.name,
+        this.state.cpf,
+        this.state.month + year,
+        this.state.date,
+        this.state.payment,
+        Number(this.state.value)
+      );
+      this.setState({
+        name: '',
+        cpf: '',
+        month: '',
+        date: '',
+        payment: '',
+        value: '',
+      });
+    } else {
+      alert('nome em branco');
+    }
+  };
+
   filterMonth = selectMonth => {
     const filters = this.props.total.filter(item => item.month === selectMonth);
-    this.setState({
-      filter: filters,
-      isFilter: true,
-    });
+    this.setState({ filter: filters, isFilter: true });
   };
 
   render() {
-    const keysIn = Object.keys(this.props.inflow);
     const keysFilter = Object.keys(this.state.filter);
 
     return (
       <div>
         <ContainerInflow>
           <TitleInflow>Payment Inflow</TitleInflow>
-          <Table>
-            <tbody>
-              <tr>
-                <th>Name</th>
-                <th>CPF</th>
-                <th>Date</th>
-                <th>Payment</th>
-                <th>Value</th>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr>
-                <td>
-                  <input
-                    type="text"
-                    name="name"
-                    value={this.state.name}
-                    onChange={this.handleChange}
-                    placeholder="Name..."
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    name="cpf"
-                    value={this.state.cpf}
-                    onChange={this.handleChange}
-                    placeholder="CPF..."
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    name="date"
-                    value={this.state.date}
-                    onChange={this.handleChange}
-                    placeholder="Date..."
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    name="payment"
-                    value={this.state.quantita}
-                    onChange={this.handleChange}
-                    placeholder="Payment method..."
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    name="value"
-                    value={this.state.quantita}
-                    onChange={this.handleChange}
-                    placeholder="Value..."
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </Table>
+          <div>
+            <Input
+              type="text"
+              ref="name"
+              value={this.state.name}
+              onChange={this.handleChange('name')}
+              placeholder="name..."
+            />
+            <InputMask
+              mask="999.999.999-99"
+              className="mask"
+              name="cpf"
+              value={this.state.cpf}
+              onChange={this.handleChange('cpf')}
+              placeholder="CPF..."
+            />
+            <Input
+              type="text"
+              name="month"
+              value={this.state.month}
+              onChange={this.handleChange('month')}
+              placeholder="month..."
+            />
+            <InputDate
+              type="date"
+              name="date"
+              value={this.state.date}
+              onChange={this.handleChange('date')}
+            />
+            <Input
+              type="text"
+              name="payment"
+              value={this.state.payment}
+              onChange={this.handleChange('payment')}
+              placeholder="Payment method..."
+            />
+            <Input
+              type="number"
+              name="value"
+              value={this.state.value}
+              onChange={this.handleChange('value')}
+              placeholder="value..."
+            />
+            <SendButton type="button" onClick={this.sendInflow}>
+              Send
+            </SendButton>
+          </div>
           <div>
             <FilterMonth filterMonth={this.filterMonth} />
             <Table>
@@ -128,12 +198,9 @@ class Payment extends Component {
                   <ThTable>Value</ThTable>
                 </tr>
               </tbody>
-              {/* {keysIn.map(key => (
-                <Inflow inflow={this.props.inflow[key]} key={key} />
-              ))} */}
               {this.state.isFilter &&
                 keysFilter.map(key => (
-                  <Inflow inflow={this.state.filter[key]} />
+                  <Inflow inflow={this.state.filter[key]} key={key} />
                 ))}
             </Table>
           </div>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
@@ -19,6 +19,7 @@ const Side = styled.div`
 const StyledLink = styled(Link)`
   padding-bottom: 10px;
   padding-top: 10px;
+  padding-left: 10px;
   list-style: none;
   color: #594a4a;
   display: block;
@@ -31,16 +32,11 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const Title = styled.h2`
-  font-weight: 300;
-  color: #696969;
-  padding: 10px;
-`;
-
 const User = styled.p`
   font-size: 0.5rem;
   position: absolute;
-  left: 10px;
+  left: 4%;
+  bottom: 0;
 `;
 
 const Button = styled.button`
@@ -51,27 +47,27 @@ const Button = styled.button`
   border-radius: 40px;
   background-color: #c93a71;
   color: #ffffff;
+  cursor: pointer;
   :focus {
     box-shadow: 0 0 0 0;
     border: 0 none;
     outline: 0;
   }
   :hover {
-    opacity: 0.6;
+    padding: 9.5px 33.5px;
   }
 `;
 
 const Sidebar = props => {
   return (
     <div>
-      {/* <User>{props.email}</User> */}
       <Side>
-        {/* <Title>Nutritional Clinic</Title> */}
         <StyledLink to="/">Dashboard</StyledLink>
         <StyledLink to="/inflows">Inflows</StyledLink>
         <StyledLink to="/outflows">Outflows</StyledLink>
         <StyledLink to="/accountplan">Accountplan</StyledLink>
         <Button onClick={props.logout}> Logout</Button>
+        <User>{props.email}</User>
       </Side>
     </div>
   );

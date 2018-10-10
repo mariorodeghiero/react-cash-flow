@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import InflowChart from './InflowChart';
+import InflowOutflowChart from './InflowOutflowChart';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -18,45 +18,15 @@ const Chart = styled.div`
   position: absolute;
 `;
 
-class Dashboard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      newValueIn: '',
-      valueIn: [1111, 2222],
-    };
-  }
-  sendValue = () => {
-    this.setState({
-      valueIn: [...this.state.valueIn, this.state.newValueIn],
-      newValueIn: '',
-    });
-  };
-
-  handleChange = event => {
-    this.setState({ newValueIn: event.target.value });
-  };
-  render() {
-    return (
-      <Wrapper>
-        <h1>Dashboard</h1>
-        <Chart>
-          <InflowChart total={this.props.chartData} />
-        </Chart>
-        <div>
-          <div>
-            <textarea
-              value={this.state.newValueIn}
-              onChange={this.handleChange}
-            />
-          </div>
-          <button onClick={this.sendValue}>Send</button>
-          {this.state.newValueIn}
-          {this.state.valueIn}
-        </div>
-      </Wrapper>
-    );
-  }
-}
+const Dashboard = props => {
+  return (
+    <Wrapper>
+      <h1>Dashboard</h1>
+      <Chart>
+        <InflowOutflowChart total={props.chartData} />
+      </Chart>
+    </Wrapper>
+  );
+};
 
 export default Dashboard;
