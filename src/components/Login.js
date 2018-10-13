@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import Footer from './Footer';
+
 const ContinerLogin = styled.div`
   width: 400px;
   margin: 0 auto;
@@ -36,7 +38,7 @@ const Button = styled.button`
     outline: 0;
   }
   :hover {
-    opacity: 0.6;
+    padding: 9.5px 33.5px;
   }
 `;
 
@@ -57,23 +59,26 @@ class Login extends Component {
   };
   render() {
     return (
-      <ContinerLogin>
-        <Input
-          type="text"
-          onChange={this.handleChange('email')}
-          placeholder="email..."
-        />
-        <br />
-        <Input
-          type="password"
-          onChange={this.handleChange('passwd')}
-          placeholder="password..."
-        />
-        <br />
-        <Button type="button" onClick={this.login}>
-          Login
-        </Button>
-      </ContinerLogin>
+      <div>
+        <ContinerLogin>
+          <Input
+            type="text"
+            onChange={this.handleChange('email')}
+            placeholder="email..."
+          />
+          <br />
+          <Input
+            type="password"
+            onChange={this.handleChange('passwd')}
+            placeholder="password..."
+          />
+          <br />
+          <Button type="button" onClick={this.login}>
+            Login
+          </Button>
+        </ContinerLogin>
+        <Footer />
+      </div>
     );
   }
 }

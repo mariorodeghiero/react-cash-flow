@@ -5,6 +5,7 @@ import FilterMonth from './FilterMonth';
 import styled from 'styled-components';
 import '../Mask.css';
 import { sendButton, containerInflowOutflow } from './style-utils';
+import Moment from 'moment';
 
 const ContainerInflow = styled.div`
   ${containerInflowOutflow()};
@@ -33,25 +34,8 @@ const Input = styled.input`
   background: rgba(0, 0, 0, 0);
   font-size: 0.8rem;
   padding: 10px;
-  margin-right: 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  &:focus {
-    outline: none;
-    border-bottom: 1px solid #3dccce;
-    border-radius: 4px;
-  }
-  &::-webkit-inner-spin-button {
-    appearance: none;
-    margin: 0;
-  }
-`;
-
-const InputDate = styled.input`
-  border: none;
-  text-align: center;
-  background: rgba(0, 0, 0, 0);
-  font-size: 0.8rem;
-  padding: 6.5px;
+  margin-right: 20px;
+  margin-left: 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   &:focus {
     outline: none;
@@ -92,10 +76,8 @@ class Payment extends Component {
       isFilter: false,
       name: '',
       cpf: '',
-      date: '',
       payment: '',
       value: '',
-      month: '',
     };
   }
 
@@ -109,16 +91,16 @@ class Payment extends Component {
       this.props.sendInflow(
         this.state.name,
         this.state.cpf,
-        this.state.month + year,
-        this.state.date,
+        Moment()
+          .format('MMM')
+          .toLowerCase() + year,
+        Moment().format('lll'),
         this.state.payment,
         Number(this.state.value)
       );
       this.setState({
         name: '',
         cpf: '',
-        month: '',
-        date: '',
         payment: '',
         value: '',
       });
@@ -134,7 +116,7 @@ class Payment extends Component {
 
   render() {
     const keysFilter = Object.keys(this.state.filter);
-
+    console.log('mes :' + Moment().format('lll'));
     return (
       <div>
         <ContainerInflow>
@@ -157,23 +139,10 @@ class Payment extends Component {
             />
             <Input
               type="text"
-              name="month"
-              value={this.state.month}
-              onChange={this.handleChange('month')}
-              placeholder="month..."
-            />
-            <InputDate
-              type="date"
-              name="date"
-              value={this.state.date}
-              onChange={this.handleChange('date')}
-            />
-            <Input
-              type="text"
               name="payment"
               value={this.state.payment}
               onChange={this.handleChange('payment')}
-              placeholder="Payment method..."
+              placeholder="payment method..."
             />
             <Input
               type="number"

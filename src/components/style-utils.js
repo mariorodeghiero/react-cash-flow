@@ -7,6 +7,7 @@ export function sendButton() {
     background-color: #c93a71;
     color: #ffffff;
     cursor: pointer;
+    margin-left: 20px;
     :hover {
         padding: 4px 9px;
     }

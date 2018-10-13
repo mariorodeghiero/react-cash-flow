@@ -55,7 +55,7 @@ class FilterMonth extends Component {
           <option value={'aug' + year}>Augost</option>
           <option value={'sep' + year}>September</option>
           <option value={'nov' + year}>November</option>
-          <option value={'oct' + year}>Octuber</option>
+          <option value={'oct' + year}>October</option>
           <option value={'dec' + year}>December</option>
         </Select>
         {console.log('jan' + year)}

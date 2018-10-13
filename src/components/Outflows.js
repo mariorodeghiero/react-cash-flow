@@ -4,6 +4,7 @@ import Outflow from './Outflow';
 import FilterMonth from './FilterMonth';
 import styled from 'styled-components';
 import { sendButton, containerInflowOutflow } from './style-utils';
+import Moment from 'moment';
 
 const ContainerOutflow = styled.div`
   ${containerInflowOutflow()};
@@ -18,6 +19,11 @@ const Table = styled.table`
   margin: 0 auto;
   margin-top: 100px;
 `;
+const ThTable = styled.th`
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+`;
 const SenddButton = styled.button`
   ${sendButton()};
 `;
@@ -27,25 +33,10 @@ const Input = styled.input`
   text-align: center;
   background: rgba(0, 0, 0, 0);
   font-size: 15px;
+  margin-right: 20px;
+  margin-left: 20px;
+  margin-top: 50px;
   padding: 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  &:focus {
-    outline: none;
-    border-bottom: 1px solid #3dccce;
-    border-radius: 4px;
-  }
-  &::-webkit-inner-spin-button {
-    appearance: none;
-    margin: 0;
-  }
-`;
-
-const InputDate = styled.input`
-  border: none;
-  text-align: center;
-  background: rgba(0, 0, 0, 0);
-  font-size: 0.8rem;
-  padding: 6.5px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   &:focus {
     outline: none;
@@ -81,10 +72,8 @@ class Received extends Component {
       filter: '',
       isFilter: false,
       name: '',
-      date: '',
       payment: '',
       value: '',
-      month: '',
     };
   }
 
@@ -96,12 +85,14 @@ class Received extends Component {
     let year = new Date().getFullYear();
     this.props.sendOutflow(
       this.state.name,
-      this.state.month + year,
-      this.state.date,
+      Moment()
+        .format('MMM')
+        .toLowerCase() + year,
+      Moment().format('lll'),
       this.state.payment,
       Number(this.state.value)
     );
-    this.setState({ name: '', month: '', date: '', payment: '', value: '' });
+    this.setState({ name: '', payment: '', value: '' });
   };
 
   filterMonth = selectMonth => {
@@ -131,20 +122,7 @@ class Received extends Component {
               name="payment"
               value={this.state.payment}
               onChange={this.handleChange('payment')}
-              placeholder="Payment method..."
-            />
-            <Input
-              type="text"
-              name="month"
-              value={this.state.month}
-              onChange={this.handleChange('month')}
-              placeholder="month..."
-            />
-            <InputDate
-              type="date"
-              name="date"
-              value={this.state.date}
-              onChange={this.handleChange('date')}
+              placeholder="payment method..."
             />
             <Input
               type="number"
@@ -162,10 +140,10 @@ class Received extends Component {
             <Table>
               <tbody>
                 <tr>
-                  <th>Name</th>
-                  <th>Payment</th>
-                  <th>Date</th>
-                  <th>Value</th>
+                  <ThTable>Name</ThTable>
+                  <ThTable>Payment</ThTable>
+                  <ThTable>Date</ThTable>
+                  <ThTable>Value</ThTable>
                 </tr>
               </tbody>
               {this.state.isFilter &&
