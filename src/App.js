@@ -33,13 +33,12 @@ class App extends Component {
       inflow: {},
       outflow: {},
       chartData: {},
-      sumInflow: 0,
-      sumOutflow: 0,
       isAuth: false,
       isAuthError: false,
       authError: '',
       user: {},
       total: [],
+      totalOut: [],
     };
   }
 
@@ -72,21 +71,23 @@ class App extends Component {
     const { database, auth } = this.props;
     this.inflow = database.ref('flow/inflows');
     this.outflow = database.ref('flow/outflow');
-    // outflow
+
+    // Outflow
     this.outflow.on('value', snapshot => {
       console.log('Outflow:', snapshot.val());
       this.setState({
         outflow: snapshot.val(),
       });
     });
-    // inflow
+    // Inflow
     this.inflow.on('value', snapshot => {
       console.log('Inflow:', snapshot.val());
       this.setState({
         inflow: snapshot.val(),
       });
     });
-    //auth
+
+    // Auth
     auth.onAuthStateChanged(user => {
       if (user) {
         this.setState({
@@ -103,49 +104,157 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.inflow !== this.state.inflow) {
-      const keysIn = Object.keys(this.state.inflow);
-      const keysOut = Object.keys(this.state.outflow);
+    if (
+      prevState.inflow !== this.state.inflow ||
+      prevState.outflow !== this.state.outflow
+    ) {
+      //total month
+      let keyOut;
+      let keyIn;
+      let year = new Date().getFullYear();
 
-      let totalIn = 0;
-      keysIn.map(key => {
-        return (totalIn = totalIn + this.state.inflow[key].value);
-      });
-
-      let totalOut = 0;
-      keysOut.map(key => {
-        return (totalOut = totalOut + this.state.outflow[key].value);
-      });
+      const outflowObj = this.state.outflow;
+      const inflowObj = this.state.inflow;
+      const months = {
+        outflow: {
+          ['jan' + year]: 0,
+          ['feb' + year]: 0,
+          ['mar' + year]: 0,
+          ['apr' + year]: 0,
+          ['may' + year]: 0,
+          ['jun' + year]: 0,
+          ['jul' + year]: 0,
+          ['aug' + year]: 0,
+          ['sep' + year]: 0,
+          ['oct' + year]: 0,
+          ['nov' + year]: 0,
+          ['dez' + year]: 0,
+        },
+        inflow: {
+          ['jan' + year]: 0,
+          ['feb' + year]: 0,
+          ['mar' + year]: 0,
+          ['apr' + year]: 0,
+          ['may' + year]: 0,
+          ['jun' + year]: 0,
+          ['jul' + year]: 0,
+          ['aug' + year]: 0,
+          ['sep' + year]: 0,
+          ['oct' + year]: 0,
+          ['nov' + year]: 0,
+          ['dez' + year]: 0,
+        },
+      };
+      // new object outflow
+      for (keyOut in outflowObj) {
+        months.outflow[outflowObj[keyOut].month] += parseInt(
+          outflowObj[keyOut].value
+        );
+      }
+      // new object inflow
+      for (keyIn in inflowObj) {
+        months.inflow[inflowObj[keyIn].month] += parseInt(
+          inflowObj[keyIn].value
+        );
+      }
+      // Output data
+      let outputData = Array.from(
+        Object.keys(months.outflow),
+        k => months.outflow[k]
+      );
+      // Input data
+      let inputData = Array.from(
+        Object.keys(months.inflow),
+        k => months.inflow[k]
+      );
 
       // filter
+      const keysIn = Object.keys(this.state.inflow);
+      const keysOut = Object.keys(this.state.outflow);
       const all = keysIn.map(chave => this.state.inflow[chave]);
+      const allOut = keysOut.map(chave => this.state.outflow[chave]);
 
+      console.log('test chart :', allOut);
+      console.log('test outchartmonths :', Object.entries(months.outflow));
+      console.log('test arr :', outputData);
+      console.log('test arrin :', inputData);
       this.setState({
-        sumInflow: totalIn,
-        sumOutflow: totalOut,
         total: all,
+        totalOut: allOut,
         chartData: {
-          labels: ['Jan', 'Fev', 'Mar', 'Abr'],
+          labels: [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dez',
+          ],
           datasets: [
             {
               label: 'Inflows',
               borderColor: '#00cfd6',
               backgroundColor: '#00cfd6',
               fill: false,
-              data: [5520, 6012, 7020, 5000],
+              data: inputData,
             },
             {
               label: 'Outflows',
               borderColor: '#c93a71',
               backgroundColor: '#c93a71',
               fill: false,
-              data: [1800, 2000, 1678, 1567],
+              data: outputData,
             },
           ],
         },
       });
     }
   }
+
+  // Send Inflow
+  sendInflow = (name, cpf, month, date, payment, value) => {
+    const { database } = this.props;
+    const id = database
+      .ref()
+      .child('flow/inflows')
+      .push().key;
+    console.log('id : ', id);
+    const inflows = {};
+    inflows[id] = {
+      name,
+      cpf,
+      month,
+      date,
+      payment,
+      value,
+    };
+    database.ref('flow/inflows').update(inflows);
+  };
+
+  // Send Outflow
+  sendOutflow = (name, month, date, payment, value) => {
+    const { database } = this.props;
+    const id = database
+      .ref()
+      .child('flow/outflow')
+      .push().key;
+    console.log('id : ', id);
+    const outflow = {};
+    outflow[id] = {
+      name,
+      month,
+      date,
+      payment,
+      value,
+    };
+    database.ref('flow/outflow').update(outflow);
+  };
 
   render() {
     return (
@@ -155,8 +264,6 @@ class App extends Component {
             <div>
               <Sidebar email={this.state.user.email} logout={this.logout} />
               <Switch>
-                {console.log('Total inflow:', this.state.sumInflow)}
-                {console.log('Total Outflow:', this.state.sumOutflow)}
                 <Route
                   path="/"
                   exact
@@ -176,13 +283,19 @@ class App extends Component {
                       {...props}
                       inflow={this.state.inflow}
                       total={this.state.total}
+                      sendInflow={this.sendInflow}
                     />
                   )}
                 />
                 <Route
                   path="/outflows"
                   render={props => (
-                    <Outflows {...props} outflow={this.state.outflow} />
+                    <Outflows
+                      {...props}
+                      outflow={this.state.outflow}
+                      totalOut={this.state.totalOut}
+                      sendOutflow={this.sendOutflow}
+                    />
                   )}
                 />
                 <Route component={Error} />

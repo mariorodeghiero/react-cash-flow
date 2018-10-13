@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Bar } from 'react-chartjs-2';
 
+let year = new Date().getFullYear();
+
 class InflowChart extends Component {
   constructor(props) {
     super(props);
@@ -21,7 +23,7 @@ class InflowChart extends Component {
       },
       title: {
         display: true,
-        text: 'Ano 2018',
+        text: 'Year ' + year,
         fontSize: 13,
         padding: 20,
       },

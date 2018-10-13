@@ -3,8 +3,15 @@ import styled from 'styled-components';
 
 const FormFilter = styled.form`
   float: right;
-  position: absolute;
-  right: 15%;
+  /* position: absolute; */
+  margin-right: 25%;
+  /* clear: both; */
+`;
+const Select = styled.select`
+  background: transparent;
+  border: none;
+  outline: 0;
+  font-size: 0.8rem;
 `;
 
 class FilterMonth extends Component {
@@ -31,23 +38,27 @@ class FilterMonth extends Component {
       this.handleSubmit();
     }
   }
+
   render() {
+    let date = new Date();
+    let year = date.getFullYear();
     return (
       <FormFilter>
-        <select value={this.state.value} onChange={this.handleChange}>
-          <option value="jan">January</option>
-          <option value="fev">February</option>
-          <option value="mar">March</option>
-          <option value="apr">April</option>
-          <option value="may">May</option>
-          <option value="jun">June</option>
-          <option value="jul">July</option>
-          <option value="aug">Augost</option>
-          <option value="sep">September</option>
-          <option value="nov">November</option>
-          <option value="oct">Octuber</option>
-          <option value="dec">December</option>
-        </select>
+        <Select value={this.state.value} onChange={this.handleChange}>
+          <option value={'jan' + year}>January</option>
+          <option value={'feb' + year}>February</option>
+          <option value={'mar' + year}>March</option>
+          <option value={'apr' + year}>April</option>
+          <option value={'may' + year}>May</option>
+          <option value={'jun' + year}>June</option>
+          <option value={'jul' + year}>July</option>
+          <option value={'aug' + year}>Augost</option>
+          <option value={'sep' + year}>September</option>
+          <option value={'nov' + year}>November</option>
+          <option value={'oct' + year}>October</option>
+          <option value={'dec' + year}>December</option>
+        </Select>
+        {console.log('jan' + year)}
       </FormFilter>
     );
   }

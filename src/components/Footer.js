@@ -5,10 +5,8 @@ const FooterStyle = styled.footer`
   width: 100%;
   position: absolute;
   bottom: 0;
-  color: #aaaaaa;
   text-align: center;
-  padding: 10px;
-  background-color: #ffffff;
+  padding-bottom: 20px;
 `;
 const Footer = () => {
   return (
