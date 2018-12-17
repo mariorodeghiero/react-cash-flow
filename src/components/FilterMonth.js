@@ -25,7 +25,7 @@ class FilterMonth extends Component {
 
   handleChange(event) {
     this.setState({
-      value: event.target.value,
+      value: event.target.value
     });
   }
 
@@ -40,11 +40,12 @@ class FilterMonth extends Component {
   }
 
   render() {
+    const { value } = this.state;
     let date = new Date();
     let year = date.getFullYear();
     return (
       <FormFilter>
-        <Select value={this.state.value} onChange={this.handleChange}>
+        <Select value={value} onChange={this.handleChange}>
           <option value={'jan' + year}>January</option>
           <option value={'feb' + year}>February</option>
           <option value={'mar' + year}>March</option>

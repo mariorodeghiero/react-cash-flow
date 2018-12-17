@@ -1,7 +1,7 @@
 import React from 'react';
+import styled from 'styled-components';
 
 import InflowOutflowChart from './InflowOutflowChart';
-import styled from 'styled-components';
 
 const Wrapper = styled.div`
   width: 80%;
@@ -18,12 +18,12 @@ const Chart = styled.div`
   position: absolute;
 `;
 
-const Dashboard = props => {
+const Dashboard = ({ chartData }) => {
   return (
     <Wrapper>
       <h1>Dashboard</h1>
       <Chart>
-        <InflowOutflowChart total={props.chartData} />
+        <InflowOutflowChart total={chartData} />
       </Chart>
     </Wrapper>
   );

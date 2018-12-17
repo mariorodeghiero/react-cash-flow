@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import styled from 'styled-components';
 
 const Side = styled.div`
@@ -58,7 +57,7 @@ const Button = styled.button`
   }
 `;
 
-const Sidebar = props => {
+const Sidebar = ({ logout, email }) => {
   return (
     <div>
       <Side>
@@ -66,8 +65,8 @@ const Sidebar = props => {
         <StyledLink to="/inflows">Inflows</StyledLink>
         <StyledLink to="/outflows">Outflows</StyledLink>
         <StyledLink to="/accountplan">Accountplan</StyledLink>
-        <Button onClick={props.logout}> Logout</Button>
-        <User>{props.email}</User>
+        <Button onClick={logout}> Logout</Button>
+        <User>{email}</User>
       </Side>
     </div>
   );

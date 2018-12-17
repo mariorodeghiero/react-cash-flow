@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { injectGlobal } from 'styled-components';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
 import Outflows from './components/Outflows';
 import Inflows from './components/Inflows';
 import Error from './components/Error';
 import Login from './components/Login';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 injectGlobal`
   * {
@@ -38,7 +39,7 @@ class App extends Component {
       authError: '',
       user: {},
       total: [],
-      totalOut: [],
+      totalOut: []
     };
   }
 
@@ -46,7 +47,7 @@ class App extends Component {
     const { auth } = this.props;
     this.setState({
       authError: '',
-      isAuthError: false,
+      isAuthError: false
     });
     try {
       await auth.signInWithEmailAndPassword(email, passwd);
@@ -55,7 +56,7 @@ class App extends Component {
       console.log('Erro:', err.code);
       this.setState({
         authError: err.code,
-        isAuthError: true,
+        isAuthError: true
       });
     }
   };
@@ -76,14 +77,14 @@ class App extends Component {
     this.outflow.on('value', snapshot => {
       console.log('Outflow:', snapshot.val());
       this.setState({
-        outflow: snapshot.val(),
+        outflow: snapshot.val()
       });
     });
     // Inflow
     this.inflow.on('value', snapshot => {
       console.log('Inflow:', snapshot.val());
       this.setState({
-        inflow: snapshot.val(),
+        inflow: snapshot.val()
       });
     });
 
@@ -92,22 +93,19 @@ class App extends Component {
       if (user) {
         this.setState({
           isAuth: true,
-          user,
+          user
         });
       } else {
         this.setState({
           isAuth: false,
-          user: {},
+          user: {}
         });
       }
     });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (
-      prevState.inflow !== this.state.inflow ||
-      prevState.outflow !== this.state.outflow
-    ) {
+    if (prevState.inflow !== this.state.inflow || prevState.outflow !== this.state.outflow) {
       //total month
       let keyOut;
       let keyIn;
@@ -128,7 +126,7 @@ class App extends Component {
           ['sep' + year]: 0,
           ['oct' + year]: 0,
           ['nov' + year]: 0,
-          ['dez' + year]: 0,
+          ['dez' + year]: 0
         },
         inflow: {
           ['jan' + year]: 0,
@@ -142,31 +140,21 @@ class App extends Component {
           ['sep' + year]: 0,
           ['oct' + year]: 0,
           ['nov' + year]: 0,
-          ['dez' + year]: 0,
-        },
+          ['dez' + year]: 0
+        }
       };
       // new object outflow
       for (keyOut in outflowObj) {
-        months.outflow[outflowObj[keyOut].month] += parseInt(
-          outflowObj[keyOut].value
-        );
+        months.outflow[outflowObj[keyOut].month] += parseInt(outflowObj[keyOut].value);
       }
       // new object inflow
       for (keyIn in inflowObj) {
-        months.inflow[inflowObj[keyIn].month] += parseInt(
-          inflowObj[keyIn].value
-        );
+        months.inflow[inflowObj[keyIn].month] += parseInt(inflowObj[keyIn].value);
       }
       // Output data
-      let outputData = Array.from(
-        Object.keys(months.outflow),
-        k => months.outflow[k]
-      );
+      let outputData = Array.from(Object.keys(months.outflow), k => months.outflow[k]);
       // Input data
-      let inputData = Array.from(
-        Object.keys(months.inflow),
-        k => months.inflow[k]
-      );
+      let inputData = Array.from(Object.keys(months.inflow), k => months.inflow[k]);
 
       // filter
       const keysIn = Object.keys(this.state.inflow);
@@ -194,7 +182,7 @@ class App extends Component {
             'Sep',
             'Oct',
             'Nov',
-            'Dez',
+            'Dez'
           ],
           datasets: [
             {
@@ -202,17 +190,17 @@ class App extends Component {
               borderColor: '#00cfd6',
               backgroundColor: '#00cfd6',
               fill: false,
-              data: inputData,
+              data: inputData
             },
             {
               label: 'Outflows',
               borderColor: '#c93a71',
               backgroundColor: '#c93a71',
               fill: false,
-              data: outputData,
-            },
-          ],
-        },
+              data: outputData
+            }
+          ]
+        }
       });
     }
   }
@@ -232,7 +220,7 @@ class App extends Component {
       month,
       date,
       payment,
-      value,
+      value
     };
     database.ref('flow/inflows').update(inflows);
   };
@@ -251,29 +239,25 @@ class App extends Component {
       month,
       date,
       payment,
-      value,
+      value
     };
     database.ref('flow/outflow').update(outflow);
   };
 
   render() {
+    const { isAuth, user, inflow, outflow, chartData, total, totalOut } = this.state;
     return (
       <div>
-        {this.state.isAuth && (
+        {isAuth && (
           <Router>
             <div>
-              <Sidebar email={this.state.user.email} logout={this.logout} />
+              <Sidebar email={user.email} logout={this.logout} />
               <Switch>
                 <Route
                   path="/"
                   exact
                   render={props => (
-                    <Dashboard
-                      {...props}
-                      inflow={this.state.inflow}
-                      outflow={this.state.outflow}
-                      chartData={this.state.chartData}
-                    />
+                    <Dashboard {...props} inflow={inflow} outflow={outflow} chartData={chartData} />
                   )}
                 />
                 <Route
@@ -281,8 +265,8 @@ class App extends Component {
                   render={props => (
                     <Inflows
                       {...props}
-                      inflow={this.state.inflow}
-                      total={this.state.total}
+                      inflow={inflow}
+                      total={total}
                       sendInflow={this.sendInflow}
                     />
                   )}
@@ -292,8 +276,8 @@ class App extends Component {
                   render={props => (
                     <Outflows
                       {...props}
-                      outflow={this.state.outflow}
-                      totalOut={this.state.totalOut}
+                      outflow={outflow}
+                      totalOut={totalOut}
                       sendOutflow={this.sendOutflow}
                     />
                   )}
@@ -303,7 +287,7 @@ class App extends Component {
             </div>
           </Router>
         )}
-        {!this.state.isAuth && <Login login={this.login} />}
+        {!isAuth && <Login login={this.login} />}
       </div>
     );
   }

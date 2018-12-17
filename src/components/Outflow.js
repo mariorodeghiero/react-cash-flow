@@ -1,18 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Outflow extends Component {
-  render() {
-    return (
-      <tbody>
-        <tr>
-          <td>{this.props.outflow.name}</td>
-          <td>{this.props.outflow.payment}</td>
-          <td>{this.props.outflow.date}</td>
-          <td>{this.props.outflow.value}</td>
-        </tr>
-      </tbody>
-    );
-  }
-}
+const Outflow = ({ outflow }) => {
+  return (
+    <tbody>
+      <tr>
+        <td>{outflow.name}</td>
+        <td>{outflow.payment}</td>
+        <td>{outflow.date}</td>
+        <td>{outflow.value}</td>
+      </tr>
+    </tbody>
+  );
+};
 
 export default Outflow;

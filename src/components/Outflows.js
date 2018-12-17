@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
+import Moment from 'moment';
 
 import Outflow from './Outflow';
 import FilterMonth from './FilterMonth';
-import styled from 'styled-components';
 import { sendButton, containerInflowOutflow } from './style-utils';
-import Moment from 'moment';
 
 const ContainerOutflow = styled.div`
   ${containerInflowOutflow()};
@@ -67,13 +67,13 @@ class Received extends Component {
         'sep' + year,
         'oct' + year,
         'nov' + year,
-        'dez' + year,
+        'dez' + year
       ],
       filter: '',
       isFilter: false,
       name: '',
       payment: '',
-      value: '',
+      value: ''
     };
   }
 
@@ -96,14 +96,13 @@ class Received extends Component {
   };
 
   filterMonth = selectMonth => {
-    const filters = this.props.totalOut.filter(
-      item => item.month === selectMonth
-    );
+    const filters = this.props.totalOut.filter(item => item.month === selectMonth);
     this.setState({ filter: filters, isFilter: true });
   };
 
   render() {
-    const keysFilter = Object.keys(this.state.filter);
+    const { filter, name, payment, value, isFilter } = this.state;
+    const keysFilter = Object.keys(filter);
 
     return (
       <div>
@@ -113,21 +112,21 @@ class Received extends Component {
             <Input
               type="text"
               name="name"
-              value={this.state.name}
+              value={name}
               onChange={this.handleChange('name')}
               placeholder="name..."
             />
             <Input
               type="text"
               name="payment"
-              value={this.state.payment}
+              value={payment}
               onChange={this.handleChange('payment')}
               placeholder="payment method..."
             />
             <Input
               type="number"
               name="value"
-              value={this.state.value}
+              value={value}
               onChange={this.handleChange('value')}
               placeholder="value..."
             />
@@ -146,10 +145,7 @@ class Received extends Component {
                   <ThTable>Value</ThTable>
                 </tr>
               </tbody>
-              {this.state.isFilter &&
-                keysFilter.map(key => (
-                  <Outflow outflow={this.state.filter[key]} key={key} />
-                ))}
+              {isFilter && keysFilter.map(key => <Outflow outflow={filter[key]} key={key} />)}
             </Table>
           </div>
         </ContainerOutflow>

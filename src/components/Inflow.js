@@ -1,19 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Inflow extends Component {
-  render() {
-    return (
-      <tbody>
-        <tr>
-          <td>{this.props.inflow.name}</td>
-          <td>{this.props.inflow.cpf}</td>
-          <td>{this.props.inflow.payment}</td>
-          <td>{this.props.inflow.date}</td>
-          <td>{this.props.inflow.value}</td>
-        </tr>
-      </tbody>
-    );
-  }
-}
+const Inflow = ({ inflow }) => {
+  return (
+    <tbody>
+      <tr>
+        <td>{inflow.name}</td>
+        <td>{inflow.cpf}</td>
+        <td>{inflow.payment}</td>
+        <td>{inflow.date}</td>
+        <td>{inflow.value}</td>
+      </tr>
+    </tbody>
+  );
+};
 
 export default Inflow;
