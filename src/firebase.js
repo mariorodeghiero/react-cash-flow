@@ -8,7 +8,7 @@ const config = {
   databaseURL: 'https://react-cash-flow.firebaseio.com',
   projectId: 'react-cash-flow',
   storageBucket: 'react-cash-flow.appspot.com',
-  messagingSenderId: '331861258302',
+  messagingSenderId: '331861258302'
 };
 firebase.initializeApp(config);
 

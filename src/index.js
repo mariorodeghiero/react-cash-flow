@@ -5,8 +5,5 @@ import registerServiceWorker from './registerServiceWorker';
 
 import { database, auth } from './firebase';
 
-ReactDOM.render(
-  <App database={database} auth={auth} />,
-  document.getElementById('root')
-);
+ReactDOM.render(<App database={database} auth={auth} />, document.getElementById('root'));
 registerServiceWorker();

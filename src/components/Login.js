@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import Footer from './Footer';
 
-const ContinerLogin = styled.div`
+const ContainerLogin = styled.div`
   width: 400px;
   margin: 0 auto;
   text-align: center;
@@ -32,6 +32,7 @@ const Button = styled.button`
   border-radius: 40px;
   background-color: #c93a71;
   color: #ffffff;
+  cursor: pointer;
   :focus {
     box-shadow: 0 0 0 0;
     border: 0 none;
@@ -45,12 +46,12 @@ const Button = styled.button`
 class Login extends Component {
   state = {
     email: '',
-    passwd: '',
+    passwd: ''
   };
 
   handleChange = field => event => {
     this.setState({
-      [field]: event.target.value,
+      [field]: event.target.value
     });
   };
 
@@ -60,23 +61,15 @@ class Login extends Component {
   render() {
     return (
       <div>
-        <ContinerLogin>
-          <Input
-            type="text"
-            onChange={this.handleChange('email')}
-            placeholder="email..."
-          />
+        <ContainerLogin>
+          <Input type="text" onChange={this.handleChange('email')} placeholder="email..." />
           <br />
-          <Input
-            type="password"
-            onChange={this.handleChange('passwd')}
-            placeholder="password..."
-          />
+          <Input type="password" onChange={this.handleChange('passwd')} placeholder="password..." />
           <br />
           <Button type="button" onClick={this.login}>
             Login
           </Button>
-        </ContinerLogin>
+        </ContainerLogin>
         <Footer />
       </div>
     );
