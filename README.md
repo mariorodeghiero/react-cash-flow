@@ -15,7 +15,7 @@ with possibility to filter the monthly flow and also present a graphical dashboa
 First, clone the repo via git:
 
 ```bash
-git clone --depth=1 https://github.com/mariorodeghiero/git-commands.git your-project-name
+git clone --depth=1 https://github.com/mariorodeghiero/react-cash-flow.git your-project-name
 ```
 
 And then install dependencies with yarn.
